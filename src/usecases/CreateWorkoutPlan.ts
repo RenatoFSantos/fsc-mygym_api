@@ -10,7 +10,7 @@ interface InputDto {
         weekDay: WeekDay;
         isRest: boolean;
         estimatedDurationInSeconds: number;
-        exercises: Array<{
+        workoutExercises: Array<{
             name: string;
             order: number;
             sets: number;
@@ -52,8 +52,8 @@ export class CreateWorkoutPlan {
                             weekDay: workoutDay.weekDay,
                             isRest: workoutDay.isRest,
                             estimatedDurationInSeconds: workoutDay.estimatedDurationInSeconds,
-                            exercises: {
-                                create: workoutDay.exercises.map((exercise) => ({
+                            workoutExercises: {
+                                create: workoutDay.workoutExercises.map((exercise) => ({
                                     name: exercise.name,
                                     order: exercise.order,
                                     sets: exercise.sets,
@@ -72,7 +72,7 @@ export class CreateWorkoutPlan {
                 include: {
                     workoutDays: {
                         include: {
-                            exercises: true
+                            workoutExercises: true
                         }
                     }
                 }

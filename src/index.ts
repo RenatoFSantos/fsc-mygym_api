@@ -81,7 +81,7 @@ app.withTypeProvider<ZodTypeProvider>().route({
         weekDay: z.enum(WeekDay).default(WeekDay.MONDAY),
         isRest: z.boolean().default(false),
         estimatedDurationInSeconds: z.number().min(1),
-        exercises: z.array(
+        workoutExercises: z.array(
           z.object({
             name: z.string().trim().min(1, { error: 'Exercise name is required' }),
             order: z.number().min(1),
@@ -104,7 +104,7 @@ app.withTypeProvider<ZodTypeProvider>().route({
           weekDay: z.enum(WeekDay).default(WeekDay.MONDAY),
           isRest: z.boolean().default(false),
           estimatedDurationInSeconds: z.number().min(1),
-          exercises: z.array(
+          workoutExercises: z.array(
             z.object({
               name: z.string().trim().min(1, { error: 'Exercise name is required' }),
               order: z.number().min(1),
