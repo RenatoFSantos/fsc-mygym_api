@@ -6,7 +6,10 @@
     "target": "es2024",
     "skipLibCheck": true,
     "strict": true,
+    "noImplicitAny": false,
     "outDir": "./dist"
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts"
+  ],
 }

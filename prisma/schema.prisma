@@ -51,16 +51,17 @@ model WorkoutPlan {
 }
 
 model WorkoutDay {
-  id               String            @id @default(uuid())
-  name             String
-  workoutPlanId    String
-  workoutPlan      WorkoutPlan       @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
-  workoutExercises WorkoutExercise[]
-  workoutSessions  WorkoutSession[]
-  isRest           Boolean           @default(false)
-  weekDay          WeekDay
-  createdAt        DateTime          @default(now()) @db.Timestamptz()
-  updatedAt        DateTime          @default(now()) @db.Timestamptz()
+  id                         String            @id @default(uuid())
+  name                       String
+  workoutPlanId              String
+  workoutPlan                WorkoutPlan       @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+  workoutExercises           WorkoutExercise[]
+  workoutSessions            WorkoutSession[]
+  isRest                     Boolean           @default(false)
+  weekDay                    WeekDay
+  estimatedDurationInSeconds Int
+  createdAt                  DateTime          @default(now()) @db.Timestamptz()
+  updatedAt                  DateTime          @default(now()) @db.Timestamptz()
 }
 
 model WorkoutExercise {
