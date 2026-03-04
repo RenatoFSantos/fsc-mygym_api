@@ -30,8 +30,8 @@ model User {
   email         String
   emailVerified Boolean       @default(false)
   image         String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt     DateTime      @default(now()) @db.Timestamptz()
+  updatedAt     DateTime      @updatedAt @db.Timestamptz()
   sessions      Session[]
   accounts      Account[]
 
@@ -46,8 +46,8 @@ model WorkoutPlan {
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   workoutDays WorkoutDay[]
   isActive    Boolean      @default(true)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @default(now())
+  createdAt   DateTime     @default(now()) @db.Timestamptz()
+  updatedAt   DateTime     @default(now()) @db.Timestamptz()
 }
 
 model WorkoutDay {
@@ -81,7 +81,7 @@ model WorkoutSession {
   id           String     @id @default(uuid())
   workoutDayId String
   workoutDay   WorkoutDay @relation(fields: [workoutDayId], references: [id], onDelete: Cascade)
-  startAt      DateTime   @db.Timestamptz()
+  startedAt    DateTime   @db.Timestamptz()
   completedAt  DateTime   @db.Timestamptz()
   createdAt    DateTime   @default(now()) @db.Timestamptz()
   updatedAt    DateTime   @updatedAt @db.Timestamptz()
