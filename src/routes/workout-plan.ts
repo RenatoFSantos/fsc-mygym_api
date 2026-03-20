@@ -144,7 +144,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
 
     app.withTypeProvider<ZodTypeProvider>().route({
         method: 'POST',
-        url: '/workout-plans',
+        url: '/',
         schema: {
             tags: ['Workout Plan'],
             summary: 'Create Workout Plan',
