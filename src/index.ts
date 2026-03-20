@@ -8,6 +8,9 @@ import { jsonSchemaTransform, serializerCompiler, validatorCompiler, ZodTypeProv
 import z from 'zod';
 
 import { auth } from './lib/auth.js';
+import { homeRoutes } from './routes/home.js';
+import { meRoutes } from './routes/me.js';
+import { statsRoutes } from './routes/stats.js';
 import { workoutPlanRoutes } from './routes/workout-plan.js';
 
 
@@ -66,6 +69,9 @@ await app.register(fastifyApiReference, {
 
 // Routes
 await app.register(workoutPlanRoutes, { prefix: '' })
+await app.register(homeRoutes, { prefix: '' })
+await app.register(statsRoutes, { prefix: '/stats' })
+await app.register(meRoutes, { prefix: '' })
 
 app.withTypeProvider<ZodTypeProvider>().route({
   method: 'GET',
