@@ -20,7 +20,7 @@ const UserTrainDataSchema = z.object({
 export const meRoutes = async (app: FastifyInstance) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
-    url: "/me",
+    url: "/",
     schema: {
       tags: ["Me"],
       summary: "Get current user train data",
