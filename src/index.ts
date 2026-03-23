@@ -32,7 +32,7 @@ await app.register(fastifySwagger, {
     },
     servers: [{
       description: 'Localhost',
-      url: 'http://localhost:3000'
+      url: 'http://localhost:3333'
     }],
   },
   transform: jsonSchemaTransform,
@@ -141,7 +141,7 @@ app.route({
 
 
 try {
-  await app.listen({ port: Number(process.env.PORT) || 3000 })
+  await app.listen({ port: Number(process.env.PORT) || 3333 })
 } catch (err) {
   app.log.error(err)
   process.exit(1)
