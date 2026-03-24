@@ -20,6 +20,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         method: 'GET',
         url: '/workout-plans',
         schema: {
+            operationId: 'listWorkoutPlans',
             tags: ['Workout Plan'],
             summary: 'List workout plans',
             querystring: z.object({
@@ -85,6 +86,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         method: 'GET',
         url: '/workout-plans/:id',
         schema: {
+            operationId: 'getWorkplansId',
             tags: ['Workout Plan'],
             summary: 'Get Workout Plan by ID',
             params: z.object({
@@ -146,6 +148,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         method: 'POST',
         url: '/',
         schema: {
+            operationId: 'createWorkoutPlans',
             tags: ['Workout Plan'],
             summary: 'Create Workout Plan',
             body: WorkoutPlanSchema.omit({ id: true }),
@@ -191,6 +194,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         method: 'GET',
         url: '/workout-plans/:workoutPlanId/days/:workoutDayId',
         schema: {
+            operationId: 'getWorkoutDays',
             tags: ['Workout Plan'],
             summary: 'Get Workout Day by ID',
             params: z.object({
@@ -264,6 +268,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         method: 'POST',
         url: '/workout-plans/:workoutPlanId/days/:workoutDayId/sessions',
         schema: {
+            operationId: 'startWorkoutSession',
             tags: ['Workout Plan'],
             summary: 'Start Workout Session',
             params: z.object({
@@ -325,6 +330,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
         method: 'PUT',
         url: '/workout-plans/:workoutPlanId/days/:workoutDayId/sessions/:workoutSessionId',
         schema: {
+            operationId: 'updateWorkoutSession',
             tags: ['Workout Plan'],
             summary: 'Update Workout Session',
             params: z.object({

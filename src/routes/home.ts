@@ -14,6 +14,7 @@ export const homeRoutes = async (app: FastifyInstance) => {
         method: 'GET',
         url: '/:date',
         schema: {
+            operationId: 'getHomePageData',
             tags: ['Home'],
             summary: 'Get home page data',
             params: z.object({
@@ -31,7 +32,7 @@ export const homeRoutes = async (app: FastifyInstance) => {
                         estimatedDurationInSeconds: z.number(),
                         coverImageUrl: z.string().nullable().optional(),
                         exercisesCount: z.number(),
-                    }),
+                    }).optional(),
                     workoutStreak: z.number(),
                     consistencyByDay: z.record(
                         z.iso.date(),

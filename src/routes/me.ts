@@ -22,6 +22,7 @@ export const meRoutes = async (app: FastifyInstance) => {
     method: "GET",
     url: "/",
     schema: {
+      operationId: 'getCurrentUserTrainData',
       tags: ["Me"],
       summary: "Get current user train data",
       response: {
@@ -58,6 +59,7 @@ export const meRoutes = async (app: FastifyInstance) => {
     method: "PUT",
     url: "/me",
     schema: {
+      operationId: 'upsertCurrentUserTrainData',
       tags: ["Me"],
       summary: "Upsert current user train data",
       body: z.object({
