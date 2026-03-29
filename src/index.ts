@@ -68,12 +68,15 @@ await app.register(fastifyApiReference, {
   },
 });
 
+// *************************************************************************************
 // Routes
+// *************************************************************************************
 await app.register(workoutPlanRoutes, { prefix: '/workout-plans' })
 await app.register(homeRoutes, { prefix: '/home' })
 await app.register(statsRoutes, { prefix: '/stats' })
 await app.register(meRoutes, { prefix: '/me' })
 await app.register(aiRoutes, { prefix: '/ai' })
+// *************************************************************************************
 
 app.withTypeProvider<ZodTypeProvider>().route({
   method: 'GET',
@@ -90,7 +93,6 @@ app.withTypeProvider<ZodTypeProvider>().route({
   method: 'GET',
   url: '/',
   schema: {
-    description: 'Hello World Route',
     tags: ['Hello World'],
     response: {
       200: z.object({

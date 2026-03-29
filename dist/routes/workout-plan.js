@@ -1,22 +1,17 @@
 import { fromNodeHeaders } from "better-auth/node";
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-
 import { ConflictError, NotFoundError, WorkoutPlanNotActiveError } from "../errors/index.js";
 import { WeekDay } from "../generated/prisma/enums.js";
 import { auth } from "../lib/auth.js";
 import { ErrorSchema, WorkoutPlanSchema } from "../schemas/index.js";
-import { CreateWorkoutPlan, OutputDto } from "../usecases/CreateWorkoutPlan.js";
+import { CreateWorkoutPlan } from "../usecases/CreateWorkoutPlan.js";
 import { GetWorkoutDay } from "../usecases/GetWorkoutDay.js";
 import { GetWorkoutPlan } from "../usecases/GetWorkoutPlan.js";
 import { GetWorkoutPlans } from "../usecases/GetWorkoutPlans.js";
 import { StartWorkoutSession } from "../usecases/StartWorkoutSession.js";
 import { UpdateWorkoutSession } from "../usecases/UpdateWorkoutSession.js";
-
-export const workoutPlanRoutes = async (app: FastifyInstance) => {
-
-    app.withTypeProvider<ZodTypeProvider>().route({
+export const workoutPlanRoutes = async (app) => {
+    app.withTypeProvider().route({
         method: 'GET',
         url: '/workout-plans',
         schema: {
@@ -38,7 +33,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
                         isRest: z.boolean(),
                         estimatedDurationInSeconds: z.number(),
                         coverImageUrl: z.string().nullable(),
-                        workoutExercises: z.array(z.object({
+                        exercises: z.array(z.object({
                             id: z.string(),
                             name: z.string(),
                             order: z.number(),
@@ -72,7 +67,8 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
                     active,
                 });
                 return reply.status(200).send(result);
-            } catch (error) {
+            }
+            catch (error) {
                 app.log.error(error);
                 return reply.status(500).send({
                     error: 'Internal server error',
@@ -81,10 +77,9 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             }
         },
     });
-
-    app.withTypeProvider<ZodTypeProvider>().route({
+    app.withTypeProvider().route({
         method: 'GET',
-        url: '/:id',
+        url: '/workout-plans/:id',
         schema: {
             operationId: 'getWorkplansId',
             tags: ['Workout Plan'],
@@ -128,7 +123,8 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
                     workoutPlanId: request.params.id,
                 });
                 return reply.status(200).send(result);
-            } catch (error) {
+            }
+            catch (error) {
                 app.log.error(error);
                 if (error instanceof NotFoundError) {
                     return reply.status(404).send({
@@ -143,8 +139,7 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             }
         },
     });
-
-    app.withTypeProvider<ZodTypeProvider>().route({
+    app.withTypeProvider().route({
         method: 'POST',
         url: '/',
         schema: {
@@ -164,21 +159,22 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             try {
                 const session = await auth.api.getSession({
                     headers: fromNodeHeaders(request.headers)
-                })
+                });
                 if (!session) {
                     return reply.status(401).send({
                         error: "Unauthorized",
                         code: "UNAUTHORIZED",
-                    })
+                    });
                 }
                 const createWorkoutPlan = new CreateWorkoutPlan();
-                const result: OutputDto = await createWorkoutPlan.execute({
+                const result = await createWorkoutPlan.execute({
                     userId: session?.user.id || '',
                     name: request.body.name,
                     workoutDays: request.body.workoutDays,
                 });
                 return reply.status(201).send(result);
-            } catch (error) {
+            }
+            catch (error) {
                 app.log.error(error);
                 if (error instanceof NotFoundError) {
                     return reply.status(404).send({
@@ -189,10 +185,9 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             }
         }
     });
-
-    app.withTypeProvider<ZodTypeProvider>().route({
+    app.withTypeProvider().route({
         method: 'GET',
-        url: '/:workoutPlanId/days/:workoutDayId',
+        url: '/workout-plans/:workoutPlanId/days/:workoutDayId',
         schema: {
             operationId: 'getWorkoutDays',
             tags: ['Workout Plan'],
@@ -248,7 +243,8 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
                     workoutDayId: request.params.workoutDayId,
                 });
                 return reply.status(200).send(result);
-            } catch (error) {
+            }
+            catch (error) {
                 app.log.error(error);
                 if (error instanceof NotFoundError) {
                     return reply.status(404).send({
@@ -263,10 +259,9 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             }
         },
     });
-
-    app.withTypeProvider<ZodTypeProvider>().route({
+    app.withTypeProvider().route({
         method: 'POST',
-        url: '/:workoutPlanId/days/:workoutDayId/sessions',
+        url: '/workout-plans/:workoutPlanId/days/:workoutDayId/sessions',
         schema: {
             operationId: 'startWorkoutSession',
             tags: ['Workout Plan'],
@@ -302,7 +297,8 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
                     workoutDayId: request.params.workoutDayId,
                 });
                 return reply.status(201).send(result);
-            } catch (error) {
+            }
+            catch (error) {
                 app.log.error(error);
                 if (error instanceof NotFoundError) {
                     return reply.status(404).send({
@@ -325,10 +321,9 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             }
         }
     });
-
-    app.withTypeProvider<ZodTypeProvider>().route({
+    app.withTypeProvider().route({
         method: 'PUT',
-        url: '/:workoutPlanId/days/:workoutDayId/sessions/:workoutSessionId',
+        url: '/workout-plans/:workoutPlanId/days/:workoutDayId/sessions/:workoutSessionId',
         schema: {
             operationId: 'updateWorkoutSession',
             tags: ['Workout Plan'],
@@ -372,7 +367,8 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
                     completedAt: request.body.completedAt,
                 });
                 return reply.status(200).send(result);
-            } catch (error) {
+            }
+            catch (error) {
                 app.log.error(error);
                 if (error instanceof NotFoundError) {
                     return reply.status(404).send({
@@ -387,4 +383,4 @@ export const workoutPlanRoutes = async (app: FastifyInstance) => {
             }
         },
     });
-}
+};

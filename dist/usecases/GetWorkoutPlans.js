@@ -1,41 +1,6 @@
-import { WeekDay } from '../generated/prisma/enums.js';
 import { prisma } from '../lib/db.js';
-
-interface InputDto {
-    userId: string;
-    active?: boolean;
-}
-
-interface ExerciseDto {
-    id: string;
-    name: string;
-    order: number;
-    sets: number;
-    reps: number;
-    restTimeInSeconds: number;
-}
-
-interface WorkoutDayDto {
-    id: string;
-    name: string;
-    weekDay: WeekDay;
-    isRest: boolean;
-    estimatedDurationInSeconds: number;
-    coverImageUrl: string | null;
-    workoutExercises: ExerciseDto[];
-}
-
-interface WorkoutPlanDto {
-    id: string;
-    name: string;
-    isActive: boolean;
-    workoutDays: WorkoutDayDto[];
-}
-
-export type OutputDto = WorkoutPlanDto[];
-
 export class GetWorkoutPlans {
-    async execute(dto: InputDto): Promise<OutputDto> {
+    async execute(dto) {
         const plans = await prisma.workoutPlan.findMany({
             where: {
                 userId: dto.userId,
@@ -52,7 +17,6 @@ export class GetWorkoutPlans {
             },
             orderBy: { createdAt: 'desc' },
         });
-
         return plans.map((plan) => ({
             id: plan.id,
             name: plan.name,
@@ -64,7 +28,7 @@ export class GetWorkoutPlans {
                 isRest: day.isRest,
                 estimatedDurationInSeconds: day.estimatedDurationInSeconds,
                 coverImageUrl: day.coverImageUrl ?? null,
-                workoutExercises: day.workoutExercises.map((exercise) => ({
+                exercises: day.workoutExercises.map((exercise) => ({
                     id: exercise.id,
                     name: exercise.name,
                     order: exercise.order,

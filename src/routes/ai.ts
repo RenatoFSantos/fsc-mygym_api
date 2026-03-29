@@ -90,7 +90,7 @@ export const aiRoutes = async (app: FastifyInstance) => {
         const { messages } = request.body as { messages: UIMessage[] };
 
         const result = streamText({
-            model: openai("gpt-4o-mini"),
+            model: openai("gpt-5.3-chat-latest"),
             system: SYSTEM_PROMPT,
             tools: {
                 getUserTrainData: tool({
