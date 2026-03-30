@@ -17,8 +17,22 @@ import { workoutPlanRoutes } from './routes/workout-plan.js';
 
 
 
+const envToLogger = {
+  development: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: 'pid,hostname',
+      }
+    }
+  },
+  production: true,
+  test: false,
+} 
+
 const app = Fastify({
-  logger: true
+  logger: envToLogger[env.NODE_ENV]
 })
 
 app.setValidatorCompiler(validatorCompiler);

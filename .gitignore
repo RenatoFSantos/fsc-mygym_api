@@ -2,4 +2,4 @@ node_modules
 /src/generated/prisma
 .env
 # Build
-./dist
+dist
