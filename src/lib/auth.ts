@@ -6,6 +6,7 @@ import { prisma } from "./db.js";
 import { env } from "./env.js";
 
 
+
 export const auth = betterAuth({
     baseURL: env.BETTER_AUTH_URL,
     secret: env.BETTER_AUTH_SECRET,
@@ -23,6 +24,8 @@ export const auth = betterAuth({
     advanced: {
         crossSubDomainCookies: {
             enabled: true,
-        },
-    }
-})
+            domain:
+                env.NODE_ENV === "production" ? '.onrender.com' : 'localhost',
+            }
+    },
+});
